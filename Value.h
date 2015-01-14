@@ -67,16 +67,6 @@ public:
         return valuePtr->get();
     }
 
-    const T& operator[] (int index) const
-    {
-        return get<T>(index);
-    }
-    
-    T& operator[] (int index)
-    {
-        return get<T>(index);
-    }
-
 private:
 
     std::vector<ValueBase::ValueBasePtr> m_vec;
