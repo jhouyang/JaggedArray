@@ -4,6 +4,8 @@
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
+struct OutOfBoundaryException {}
+
 class ValueBase
 {
 public:
@@ -46,6 +48,10 @@ public:
     template <typename T>
     const T& get(int index) const
     {
+        if (index >= m_vec.size())
+        {
+            throw OutOfBoundaryException();
+        }
         ValueBase::ValueBasePtr ptr = m_vec[index];
         Value<T>* valuePtr = dynamic_cast< Value<T>* >(ptr.get());
 
@@ -61,9 +67,18 @@ public:
         return valuePtr->get();
     }
 
-    // const T& operator[]
+    const T& operator[] (int index) const
+    {
+        return get<T>(index);
+    }
+    
+    T& operator[] (int index)
+    {
+        return get<T>(index);
+    }
 
 private:
+
     std::vector<ValueBase::ValueBasePtr> m_vec;
 };
 #endif
