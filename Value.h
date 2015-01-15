@@ -31,6 +31,11 @@ public:
     {
         return m_value;
     }
+    
+    bool operator==(const Value& val) const
+    {
+        return val.get() == m_value;
+    }
 
 private:
     T m_value;
@@ -67,6 +72,18 @@ public:
         return valuePtr->get();
     }
 
+    unsigned int size() const
+    {
+        return m_vec.size();
+    }
+    
+    bool remove(int index)
+    {
+        if (index >= m_vec.size()) return false;
+        ValueBase::ValueBasePtr ptr = m_vec[index];
+        m_vec.erase(m_vec.begin() + index);
+        ptr.reset(NULL);
+    }
 private:
 
     std::vector<ValueBase::ValueBasePtr> m_vec;
